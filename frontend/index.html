@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuizCraft — Build & Play Quizzes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ─── NOISE OVERLAY ─── -->
+<div class="noise"></div>
+
+<!-- ─── LOADING SCREEN ─── -->
+<div id="loader">
+  <div class="loader-inner">
+    <div class="loader-logo">Q</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
+</div>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <div class="nav-brand">Quiz<span>Craft</span></div>
+  <div class="nav-links" id="navLinks">
+    <a href="#" onclick="showPage('home')" class="nav-link active">Home</a>
+    <a href="#" onclick="showPage('browse')" class="nav-link">Browse</a>
+    <a href="#" onclick="showPage('create')" class="nav-link" id="createNavLink" style="display:none">Create</a>
+    <a href="#" onclick="showPage('dashboard')" class="nav-link" id="dashNavLink" style="display:none">Dashboard</a>
+  </div>
+  <div class="nav-actions">
+    <div id="navGuest">
+      <button class="btn btn-ghost" onclick="openModal('loginModal')">Login</button>
+      <button class="btn btn-primary" onclick="openModal('registerModal')">Sign Up</button>
+    </div>
+    <div id="navUser" style="display:none" class="nav-user-pill">
+      <div class="nav-avatar" id="navAvatar"></div>
+      <span class="nav-username" id="navUsername"></span>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <button class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburger">&#9776;</button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="showPage('home');toggleMobileMenu()">Home</a>
+  <a href="#" onclick="showPage('browse');toggleMobileMenu()">Browse</a>
+  <a href="#" onclick="showPage('create');toggleMobileMenu()" id="createMobileLink" style="display:none">Create Quiz</a>
+  <a href="#" onclick="showPage('dashboard');toggleMobileMenu()" id="dashMobileLink" style="display:none">Dashboard</a>
+  <div id="mobileNavGuest">
+    <a href="#" onclick="openModal('loginModal');toggleMobileMenu()">Login</a>
+    <a href="#" onclick="openModal('registerModal');toggleMobileMenu()">Sign Up</a>
+  </div>
+  <div id="mobileNavUser" style="display:none">
+    <a href="#" onclick="logout();toggleMobileMenu()">Logout</a>
+  </div>
+</div>
+
+<!-- ─── PAGES ─── -->
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✦ Build. Share. Play.</div>
+      <h1 class="hero-title">Create Quizzes<br/><span class="grad-text">That Actually Slap</span></h1>
+      <p class="hero-subtitle">Design custom quizzes, challenge friends, and track every answer — all in one electric place.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-xl" onclick="openModal('registerModal')">Get Started Free</button>
+        <button class="btn btn-outline btn-xl" onclick="showPage('browse')">Browse Quizzes</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span id="statQuizzes">0</span><small>Quizzes</small></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span id="statUsers">0</span><small>Players</small></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span id="statPlays">0</span><small>Plays</small></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <!-- Main interactive quiz mockup -->
+      <div class="hv-mockup">
+        <div class="hvm-header">
+          <span class="hvm-tag">🌍 Geography</span>
+          <span class="hvm-qcount">Q 3 / 8</span>
+        </div>
+        <div class="hvm-progress"><div class="hvm-prog-fill" style="width:37.5%"></div></div>
+        <div class="hvm-question">Which country has the most natural lakes in the world?</div>
+        <div class="hvm-options">
+          <div class="hvm-opt hvm-opt-correct">🇨🇦 Canada <span class="hvm-tick">✓</span></div>
+          <div class="hvm-opt">🇷🇺 Russia</div>
+          <div class="hvm-opt">🇺🇸 United States</div>
+          <div class="hvm-opt">🇫🇮 Finland</div>
+        </div>
+        <div class="hvm-footer">
+          <span class="hvm-streak">🔥 3 streak</span>
+          <span class="hvm-timer">⏱ 18s</span>
+        </div>
+      </div>
+      <!-- Floating stat chips -->
+      <div class="hv-chip chip-a">
+        <span class="chip-icon">🏆</span>
+        <div>
+          <div class="chip-val">2,847</div>
+          <div class="chip-lbl">Players today</div>
+        </div>
+      </div>
+      <div class="hv-chip chip-b">
+        <span class="chip-icon">⚡</span>
+        <div>
+          <div class="chip-val">95%</div>
+          <div class="chip-lbl">Avg accuracy</div>
+        </div>
+      </div>
+      <div class="hv-chip chip-c">
+        <span class="chip-icon">✨</span>
+        <div>
+          <div class="chip-val">New!</div>
+          <div class="chip-lbl">AI Quiz Builder</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2 class="section-title">Everything you need</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feat-icon">⚡</div>
+        <h3>Lightning Fast</h3>
+        <p>Create quizzes in seconds with our intuitive builder. No fluff, just speed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🔐</div>
+        <h3>Secure Auth</h3>
+        <p>Firebase-powered authentication. Your data, always safe and private.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📊</div>
+        <h3>Live Scoring</h3>
+        <p>Real-time results and leaderboards. Know exactly how you stack up.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🌐</div>
+        <h3>Share Anywhere</h3>
+        <p>Public or private quizzes. Share with the world or just your crew.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- BROWSE PAGE -->
+<div id="page-browse" class="page">
+  <div class="page-header">
+    <h2 class="page-title">Browse Quizzes</h2>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search quizzes..." oninput="filterQuizzes()" />
+      <span class="search-icon">🔍</span>
+    </div>
+  </div>
+  <div id="quizGrid" class="quiz-grid">
+    <div class="loading-quizzes">Loading quizzes...</div>
+  </div>
+</div>
+
+<!-- CREATE PAGE -->
+<div id="page-create" class="page">
+  <div class="page-header">
+    <h2 class="page-title">Create a Quiz</h2>
+    <p class="page-sub">Build something epic.</p>
+  </div>
+  <form id="createQuizForm" class="quiz-builder">
+    <div class="form-group">
+      <label>Quiz Title</label>
+      <input type="text" id="quizTitle" placeholder="e.g. Ultimate Science Quiz" required />
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="quizDesc" placeholder="What's this quiz about?" rows="3"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="quizCategory">
+          <option>General Knowledge</option>
+          <option>Science</option>
+          <option>History</option>
+          <option>Geography</option>
+          <option>Technology</option>
+          <option>Sports</option>
+          <option>Entertainment</option>
+          <option>Math</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Visibility</label>
+        <select id="quizVisibility">
+          <option value="public">🌐 Public</option>
+          <option value="private">🔒 Private</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="questions-section">
+      <div class="qs-header">
+        <h3>Questions</h3>
+        <button type="button" class="btn btn-secondary" onclick="addQuestion()">+ Add Question</button>
+      </div>
+      <div id="questionsList"></div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-ghost" onclick="showPage('browse')">Cancel</button>
+      <button type="submit" class="btn btn-primary btn-lg">Publish Quiz ✦</button>
+    </div>
+  </form>
+</div>
+
+<!-- PLAY PAGE -->
+<div id="page-play" class="page">
+  <div id="play-start" class="play-start">
+    <div class="play-quiz-info">
+      <span class="play-category" id="playCategory"></span>
+      <h2 id="playTitle"></h2>
+      <p id="playDesc"></p>
+      <div class="play-meta">
+        <span id="playQuestionCount"></span>
+        <span id="playAuthor"></span>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-xl" onclick="startQuiz()">Start Quiz ⚡</button>
+  </div>
+
+  <div id="play-quiz" style="display:none">
+    <div class="quiz-progress">
+      <div class="progress-info">
+        <span id="questionNum">1 / 5</span>
+        <span id="timerDisplay" class="timer">⏱ 30s</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div class="question-area">
+      <h3 id="currentQuestion"></h3>
+      <div id="optionsGrid" class="options-grid"></div>
+    </div>
+  </div>
+
+  <div id="play-result" style="display:none" class="result-screen">
+    <div class="result-inner">
+      <div class="result-emoji" id="resultEmoji"></div>
+      <h2 id="resultTitle"></h2>
+      <div class="result-score" id="resultScore"></div>
+      <p id="resultMessage"></p>
+      <div class="result-breakdown" id="resultBreakdown"></div>
+      <div class="result-actions">
+        <button class="btn btn-primary" onclick="retryQuiz()">Try Again</button>
+        <button class="btn btn-ghost" onclick="showPage('browse')">Browse More</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MY QUIZZES PAGE -->
+<div id="page-myquizzes" class="page">
+  <div class="page-header">
+    <h2 class="page-title">My Quizzes</h2>
+    <button class="btn btn-primary" onclick="showPage('create')">+ Create New</button>
+  </div>
+  <div id="myQuizGrid" class="quiz-grid"></div>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div id="page-dashboard" class="page">
+  <div class="dash-hero">
+    <div class="dash-hero-left">
+      <div class="dash-avatar-lg" id="dashAvatarLg"></div>
+      <div class="dash-hero-info">
+        <div class="dash-welcome">Welcome back 👋</div>
+        <h2 class="dash-name" id="dashName">—</h2>
+        <div class="dash-email" id="dashEmail">—</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="showPage('create')">+ Create Quiz</button>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="dash-stats-row">
+    <div class="dash-stat-card dsc-orange">
+      <div class="dsc-icon">🎮</div>
+      <div class="dsc-val" id="dsTotalPlays">—</div>
+      <div class="dsc-lbl">Quizzes Played</div>
+    </div>
+    <div class="dash-stat-card dsc-blue">
+      <div class="dsc-icon">🎯</div>
+      <div class="dsc-val" id="dsAccuracy">—</div>
+      <div class="dsc-lbl">Overall Accuracy</div>
+    </div>
+    <div class="dash-stat-card dsc-green">
+      <div class="dsc-icon">🏆</div>
+      <div class="dsc-val" id="dsBestScore">—</div>
+      <div class="dsc-lbl">Best Score</div>
+    </div>
+    <div class="dash-stat-card dsc-purple">
+      <div class="dsc-icon">📝</div>
+      <div class="dsc-val" id="dsCreated">—</div>
+      <div class="dsc-lbl">Quizzes Created</div>
+    </div>
+  </div>
+
+  <div class="dash-body">
+    <!-- Score History -->
+    <div class="dash-section dash-history">
+      <div class="dash-section-header">
+        <h3>📈 Score History</h3>
+        <span class="dash-section-sub" id="dashHistorySub"></span>
+      </div>
+
+      <!-- Mini bar chart -->
+      <div class="dash-chart" id="dashChart">
+        <div class="chart-empty">No quiz attempts yet.<br>Play some quizzes to see your progress!</div>
+      </div>
+
+      <!-- History list -->
+      <div class="dash-history-list" id="dashHistoryList">
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="dash-right-col">
+      <!-- Accuracy ring -->
+      <div class="dash-section dash-accuracy-card">
+        <h3>🎯 Accuracy Breakdown</h3>
+        <div class="acc-ring-wrap">
+          <svg class="acc-ring" viewBox="0 0 120 120">
+            <circle class="acc-ring-bg" cx="60" cy="60" r="50"/>
+            <circle class="acc-ring-fill" id="accRingFill" cx="60" cy="60" r="50"
+              stroke-dasharray="314" stroke-dashoffset="314"/>
+          </svg>
+          <div class="acc-ring-label">
+            <div class="acc-ring-pct" id="accRingPct">0%</div>
+            <div class="acc-ring-sub">Correct</div>
+          </div>
+        </div>
+        <div class="acc-breakdown">
+          <div class="acc-item acc-correct">
+            <span id="accCorrectNum">0</span>
+            <small>Correct</small>
+          </div>
+          <div class="acc-divider"></div>
+          <div class="acc-item acc-wrong">
+            <span id="accWrongNum">0</span>
+            <small>Wrong</small>
+          </div>
+          <div class="acc-divider"></div>
+          <div class="acc-item">
+            <span id="accTotalNum">0</span>
+            <small>Total Qs</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Quizzes quick list -->
+      <div class="dash-section dash-myq">
+        <div class="dash-section-header">
+          <h3>📚 My Quizzes</h3>
+          <a href="#" class="dash-see-all" onclick="showPage('myquizzes')">See all →</a>
+        </div>
+        <div id="dashMyQuizList" class="dash-myq-list">
+          <div class="dash-empty-sm">No quizzes created yet.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MODALS ─── -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="modal-logo">Quiz<span>Craft</span></div>
+    <h2>Welcome back</h2>
+    <p class="modal-sub">Sign in to your account</p>
+    <div id="loginError" class="error-msg"></div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" />
+    </div>
+    <button class="btn btn-primary btn-full" onclick="login()">Sign In</button>
+    <div class="modal-divider"><span>or</span></div>
+    <button class="btn btn-google btn-full" onclick="googleLogin()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.84-1.57 2.4v2h2.54c1.49-1.37 2.36-3.4 2.36-5.84 0-.56-.05-1.1-.1-1.56z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.54-2c-.72.48-1.64.76-2.76.76-2.12 0-3.92-1.43-4.56-3.36H1.8v2.07C3.13 15.19 5.87 17 8.98 17z"/><path fill="#FBBC05" d="M4.42 10.46A5.1 5.1 0 0 1 4.16 9c0-.51.09-1.01.26-1.46V5.47H1.8A8.98 8.98 0 0 0 .98 9c0 1.45.35 2.82.96 4.03l2.48-2.57z"/><path fill="#EA4335" d="M8.98 3.58c1.2 0 2.27.41 3.12 1.22l2.33-2.33C12.95.89 11.14 0 8.98 0 5.87 0 3.13 1.81 1.8 4.47l2.62 2.07c.64-1.93 2.44-2.96 4.56-2.96z"/></svg>
+      Continue with Google
+    </button>
+    <p class="modal-footer">No account? <a href="#" onclick="switchModal('loginModal','registerModal')">Sign up</a></p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+    <div class="modal-logo">Quiz<span>Craft</span></div>
+    <h2>Create account</h2>
+    <p class="modal-sub">Start building quizzes for free</p>
+    <div id="registerError" class="error-msg"></div>
+    <div class="form-group">
+      <label>Display Name</label>
+      <input type="text" id="registerName" placeholder="Your name" />
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="registerEmail" placeholder="you@example.com" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="registerPassword" placeholder="Min. 6 characters" />
+    </div>
+    <button class="btn btn-primary btn-full" onclick="register()">Create Account</button>
+    <div class="modal-divider"><span>or</span></div>
+    <button class="btn btn-google btn-full" onclick="googleLogin()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.84-1.57 2.4v2h2.54c1.49-1.37 2.36-3.4 2.36-5.84 0-.56-.05-1.1-.1-1.56z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.54-2c-.72.48-1.64.76-2.76.76-2.12 0-3.92-1.43-4.56-3.36H1.8v2.07C3.13 15.19 5.87 17 8.98 17z"/><path fill="#FBBC05" d="M4.42 10.46A5.1 5.1 0 0 1 4.16 9c0-.51.09-1.01.26-1.46V5.47H1.8A8.98 8.98 0 0 0 .98 9c0 1.45.35 2.82.96 4.03l2.48-2.57z"/><path fill="#EA4335" d="M8.98 3.58c1.2 0 2.27.41 3.12 1.22l2.33-2.33C12.95.89 11.14 0 8.98 0 5.87 0 3.13 1.81 1.8 4.47l2.62 2.07c.64-1.93 2.44-2.96 4.56-2.96z"/></svg>
+      Continue with Google
+    </button>
+    <p class="modal-footer">Have an account? <a href="#" onclick="switchModal('registerModal','loginModal')">Sign in</a></p>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

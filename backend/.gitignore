@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual Environment — NEVER commit this folder
+venv/
+env/
+.venv/
+ENV/
+
+# Environment secrets — NEVER commit this
+.env
+serviceAccountKey.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
