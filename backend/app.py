@@ -20,6 +20,7 @@ Endpoints:
 """
 
 import os
+import json
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import firebase_admin
@@ -47,18 +48,27 @@ CORS(app, resources={
 })
 
 # ─── Firebase Admin SDK Init ───────────────────────────────────
-# Uses your service account key JSON file path from .env
-cred_path = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH", "serviceAccountKey.json")
-
 if not firebase_admin._apps:
     try:
-        cred = credentials.Certificate(cred_path)
+        # ✅ NEW: Read credentials from environment variable (works on Render)
+        google_creds = os.getenv("GOOGLE_CREDENTIALS")
+
+        if google_creds:
+            # Running on Render — use environment variable
+            cred_dict = json.loads(google_creds)
+            cred = credentials.Certificate(cred_dict)
+        else:
+            # Running locally — use serviceAccountKey.json file
+            cred_path = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH", "serviceAccountKey.json")
+            cred = credentials.Certificate(cred_path)
+
         firebase_admin.initialize_app(cred)
         print("✅ Firebase Admin initialized successfully")
+
     except Exception as e:
         print(f"❌ Firebase init error: {e}")
-        print("   Make sure serviceAccountKey.json exists in the backend/ folder")
-        print("   See README.md Step 3 for instructions")
+        print("   Make sure GOOGLE_CREDENTIALS env var is set on Render")
+        print("   Or serviceAccountKey.json exists locally in the backend/ folder")
 
 db = firestore.client()
 
