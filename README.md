@@ -1,7 +1,4 @@
 Link to view the project :- https://quiz-craft1.netlify.app/
-QuizCraft — Class Presentation Speech
-
-"Hello everyone, I'm going to present my project called QuizCraft — an online quiz platform where users can create, play, and manage quizzes.
 
 What does it do?
 "QuizCraft lets you sign up, log in, and create your own quizzes with multiple choice questions. Other users can browse and play those quizzes. You also get a personal dashboard showing your quiz history and scores."
